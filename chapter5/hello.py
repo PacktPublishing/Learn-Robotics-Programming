@@ -1,1 +1,2 @@
-print("Raspberry Pi is alive")
+import socket
+print('%s is alive!' % socket.gethostname())
