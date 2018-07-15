@@ -10,8 +10,6 @@ rm = mh.getMotor(2)
 def turn_off_motors():
         lm.run(Raspi_MotorHAT.RELEASE)
         rm.run(Raspi_MotorHAT.RELEASE)
-        mh.getMotor(3).run(Raspi_MotorHAT.RELEASE)
-        mh.getMotor(4).run(Raspi_MotorHAT.RELEASE)
 atexit.register(turn_off_motors)
 
 lm.setSpeed(150)
