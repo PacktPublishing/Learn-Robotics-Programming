@@ -6,31 +6,29 @@ class Robot(object):
     def __init__(self, motorhat_addr=0x6f):
         self._mh = Raspi_MotorHAT(addr=motorhat_addr)
 
-        self._lm = self._mh.getMotor(1)
-        self._rm = self._mh.getMotor(2)
+        self.left_motor = self._mh.getMotor(1)
+        self.right_motor = self._mh.getMotor(2)
         atexit.register(self.stop_motors)
 
     def convert_speed(self, speed):
-        return (abs(speed) * 255) / 100
+        mode = Raspi_MotorHAT.RELEASE
+        if speed > 0:
+            mode = Raspi_MotorHAT.FORWARD
+        elif speed < 0:
+            mode = Raspi_MotorHAT.BACKWARD
+        output_speed = (abs(speed) * 255) / 100
+        return mode, output_speed
 
     def set_left(self, speed):
-        mode = Raspi_MotorHAT.RELEASE
-        if speed > 0:
-            mode = Raspi_MotorHAT.FORWARD
-        elif speed < 0:
-            mode = Raspi_MotorHAT.BACKWARD
-        self._lm.setSpeed(self.convert_speed(speed))
-        self._lm.run(mode)
+        mode, output_speed = self.convert_speed(speed)
+        self.left_motor.setSpeed(output_speed)
+        self.left_motor.run(mode)
 
     def set_right(self, speed):
-        mode = Raspi_MotorHAT.RELEASE
-        if speed > 0:
-            mode = Raspi_MotorHAT.FORWARD
-        elif speed < 0:
-            mode = Raspi_MotorHAT.BACKWARD
-        self._rm.setSpeed(self.convert_speed(speed))
-        self._rm.run(mode)
+        mode, output_speed = self.convert_speed(speed)
+        self.right_motor.setSpeed(output_speed)
+        self.right_motor.run(mode)
         
     def stop_motors(self):
-        self._lm.run(Raspi_MotorHAT.RELEASE)
-        self._rm.run(Raspi_MotorHAT.RELEASE)
+        self.left_motor.run(Raspi_MotorHAT.RELEASE)
+        self.right_motor.run(Raspi_MotorHAT.RELEASE)
