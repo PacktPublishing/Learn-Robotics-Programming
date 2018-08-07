@@ -9,16 +9,16 @@ class Leds(object):
         self.led_device.open(0, 0)
         self.led_device.max_speed_hz = 15000
 
-    def set_one(self, led_number, (r, g, b)):
-        self.led_colors[led_number] = (r, g, b)
+    def set_one(self, led_number, color):
+        self.led_colors[led_number] = color
 
-    def set_range(self, a_range, (r, g, b)):
+    def set_range(self, a_range, color):
         for led_number in a_range:
             print led_number
-            self.led_colors[led_number] = (r, g, b)
+            self.led_colors[led_number] = color
 
-    def set_all(self, (r, g, b)):
-        self.led_colors = [(r, g ,b)] * self.leds_count
+    def set_all(self, color):
+        self.led_colors = [color] * self.leds_count
 
     def clear(self):
         self.set_all((0, 0, 0))
