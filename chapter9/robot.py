@@ -1,9 +1,11 @@
 from Raspi_MotorHAT import Raspi_MotorHAT
 from gpiozero import LineSensor
 import atexit
+#import leds_led_shim
+import leds_8_apa102c
 
 class Robot(object):
-    def __init__(self, leds, motorhat_addr=0x6f):
+    def __init__(self, motorhat_addr=0x6f):
         self._mh = Raspi_MotorHAT(addr=motorhat_addr)
 
         self.left_motor = self._mh.getMotor(1)
@@ -11,7 +13,7 @@ class Robot(object):
         atexit.register(self.stop_all)
         self.left_line_sensor = LineSensor(23, queue_len=3, pull_up=True)
         self.right_line_sensor = LineSensor(16, queue_len=3, pull_up=True)
-        self.leds = leds
+        self.leds = leds_8_apa102c.Leds()
 
     def stop_all(self):
         self.left_line_sensor.when_line = None

@@ -1,7 +1,6 @@
 from robot import Robot
 import colorsys
 from time import sleep
-import leds_8_apa102c
 
 class FollowingRainbows:
     # Note - this is the robot ON the line. 
@@ -80,7 +79,7 @@ class FollowingRainbows:
             self.make_display()
 
 
-bot = Robot(leds_8_apa102c.Leds())
+bot = Robot()
 behavior = FollowingRainbows(bot)
 behavior.run()
 

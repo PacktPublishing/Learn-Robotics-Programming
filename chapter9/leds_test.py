@@ -1,10 +1,7 @@
 from robot import Robot
 from time import sleep
-#import leds_led_shim
-import leds_8_apa102c
 
-
-bot = Robot(leds_8_apa102c.Leds())
+bot = Robot()
 red = (255, 0, 0)
 blue = (0, 0, 255)
 

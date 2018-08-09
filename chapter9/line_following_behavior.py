@@ -1,7 +1,5 @@
 from robot import Robot
 from time import sleep
-import leds_8_apa102c
-# import leds_led_shim
 
 class LineFollowingBehavior:
     # Note - this is the robot ON the line. 
@@ -47,7 +45,7 @@ class LineFollowingBehavior:
             sleep(0.02)
 
 
-bot = Robot(leds_8_apa102c.Leds())
+bot = Robot()
 behavior = LineFollowingBehavior(bot)
 behavior.run()
 
