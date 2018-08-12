@@ -11,6 +11,7 @@ class Leds(object):
         self.led_colors = [(0,0,0)] * self.leds_count
 
     def set_one(self, led_number, color):
+        assert(len(color) == 3)
         self.led_colors[led_number] = color
 
     def set_range(self, a_range, color):

@@ -1,5 +1,9 @@
 from robot import Robot
 from time import sleep
+import colorsys
+
+cross_line_color = (255, 0, 0)
+off_line_color = (0, 0, 255)
 
 class LineFollowingBehavior:
     # Note - this is the robot ON the line. 
@@ -9,27 +13,39 @@ class LineFollowingBehavior:
         self.cornering = cornering
 
         led_qtr = int(self.robot.leds.leds_count/4)
-        self.left_indicator = range(0, led_qtr)
-        self.right_indicator = range(self.robot.leds.leds_count - led_qtr, self.robot.leds.leds_count)
+        self.right_indicator = range(0, led_qtr)
+        self.left_indicator = range(self.robot.leds.leds_count - led_qtr, self.robot.leds.leds_count)
+
+        led_half = int(self.robot.leds.leds_count/2)
+        hue_step = 0.9 / led_half
+
+        for n in range(led_half):
+            led_index = led_qtr + n
+            hue = 0.1 + (hue_step * n)
+            print(hue)
+            rgb = colorsys.hsv_to_rgb(hue, 1.0, 0.6)
+            rgb = [int(c*255) for c in rgb]
+            self.robot.leds.set_one(led_index, rgb)
+        self.robot.leds.show()
 
     def when_left_crosses_line(self):
         self.robot.set_left(self.cornering)
-        self.robot.leds.set_range(self.left_indicator, (255, 0, 0))
+        self.robot.leds.set_range(self.left_indicator, cross_line_color)
         self.robot.leds.show()
 
     def when_right_crosses_line(self):
         self.robot.set_right(self.cornering)
-        self.robot.leds.set_range(self.right_indicator, (255, 0, 0))
+        self.robot.leds.set_range(self.right_indicator, cross_line_color)
         self.robot.leds.show()
 
     def when_left_off_line(self):
         self.robot.set_left(self.forward_speed)
-        self.robot.leds.set_range(self.left_indicator, (0, 0, 255))
+        self.robot.leds.set_range(self.left_indicator, off_line_color)
         self.robot.leds.show()
 
     def when_right_off_line(self):
         self.robot.set_right(self.forward_speed)
-        self.robot.leds.set_range(self.right_indicator, (0, 0, 255))
+        self.robot.leds.set_range(self.right_indicator, off_line_color)
         self.robot.leds.show()
 
     def run(self):
