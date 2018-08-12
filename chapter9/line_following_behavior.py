@@ -17,12 +17,11 @@ class LineFollowingBehavior:
         self.left_indicator = range(self.robot.leds.leds_count - led_qtr, self.robot.leds.leds_count)
 
         led_half = int(self.robot.leds.leds_count/2)
-        hue_step = 0.9 / led_half
+        hue_step = 1.0 / led_half
 
         for n in range(led_half):
             led_index = led_qtr + n
-            hue = 0.1 + (hue_step * n)
-            print(hue)
+            hue = hue_step * n
             rgb = colorsys.hsv_to_rgb(hue, 1.0, 0.6)
             rgb = [int(c*255) for c in rgb]
             self.robot.leds.set_one(led_index, rgb)
