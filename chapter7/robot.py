@@ -4,18 +4,25 @@ import atexit
 
 class Robot(object):
     def __init__(self, motorhat_addr=0x6f):
+        # Setup the motorhat with the passed in address
         self._mh = Raspi_MotorHAT(addr=motorhat_addr)
 
+        # get local variable for each motor
         self.left_motor = self._mh.getMotor(1)
         self.right_motor = self._mh.getMotor(2)
+
+        # ensure the motors get stopped when the code exits
         atexit.register(self.stop_motors)
 
     def convert_speed(self, speed):
+        # Choose the running mode
         mode = Raspi_MotorHAT.RELEASE
         if speed > 0:
             mode = Raspi_MotorHAT.FORWARD
         elif speed < 0:
             mode = Raspi_MotorHAT.BACKWARD
+            
+        # Scale the speed
         output_speed = (abs(speed) * 255) / 100
         return mode, output_speed
 

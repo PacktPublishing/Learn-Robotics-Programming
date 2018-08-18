@@ -6,13 +6,21 @@ import leds_8_apa102c
 
 class Robot(object):
     def __init__(self, motorhat_addr=0x6f):
+        # Setup the motorhat with the passed in address
         self._mh = Raspi_MotorHAT(addr=motorhat_addr)
 
+        # get local variable for each motor
         self.left_motor = self._mh.getMotor(1)
         self.right_motor = self._mh.getMotor(2)
-        atexit.register(self.stop_all)
+
+        # ensure the motors get stopped when the code exits
+        atexit.register(self.stop_motors)
+
+        # Setup the line sensors
         self.left_line_sensor = LineSensor(23, queue_len=3, pull_up=True)
         self.right_line_sensor = LineSensor(16, queue_len=3, pull_up=True)
+
+        # Setup the Leds
         self.leds = leds_8_apa102c.Leds()
 
     def stop_all(self):
