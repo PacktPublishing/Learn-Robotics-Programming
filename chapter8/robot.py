@@ -13,7 +13,7 @@ class Robot(object):
         self.right_motor = self._mh.getMotor(2)
 
         # ensure the motors get stopped when the code exits
-        atexit.register(self.stop_motors)
+        atexit.register(self.stop_all)
         # Setup the line sensors
         self.left_line_sensor = LineSensor(23, queue_len=3, pull_up=True)
         self.right_line_sensor = LineSensor(16, queue_len=3, pull_up=True)
