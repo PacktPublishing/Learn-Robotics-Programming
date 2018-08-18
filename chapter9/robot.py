@@ -24,11 +24,14 @@ class Robot(object):
         self.leds = leds_8_apa102c.Leds()
 
     def stop_all(self):
+        self.stop_motors()
+
+        # Clear any sensor handlers
         self.left_line_sensor.when_line = None
         self.left_line_sensor.when_no_line = None
         self.right_line_sensor.when_line = None
         self.right_line_sensor.when_no_line = None
-        self.stop_motors()
+
         # Clear the display
         self.leds.clear()
         self.leds.show()

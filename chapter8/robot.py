@@ -14,16 +14,19 @@ class Robot(object):
 
         # ensure the motors get stopped when the code exits
         atexit.register(self.stop_all)
+
         # Setup the line sensors
         self.left_line_sensor = LineSensor(23, queue_len=3, pull_up=True)
         self.right_line_sensor = LineSensor(16, queue_len=3, pull_up=True)
 
     def stop_all(self):
+        self.stop_motors()
+        
+        # Clear any sensor handlers
         self.left_line_sensor.when_line = None
         self.left_line_sensor.when_no_line = None
         self.right_line_sensor.when_line = None
         self.right_line_sensor.when_no_line = None
-        self.stop_motors()
 
     def convert_speed(self, speed):
         mode = Raspi_MotorHAT.RELEASE
