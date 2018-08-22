@@ -1,13 +1,11 @@
 from Raspi_MotorHAT import Raspi_MotorHAT
-from Raspi_MotorHAT.Raspi_PWM_Servo_Driver import PWM
 from gpiozero import LineSensor
 
 import atexit
 
-from servos import Servos
-
 #import leds_led_shim
 import leds_8_apa102c
+from servos import Servos
 
 class Robot(object):
     def __init__(self, motorhat_addr=0x6f):
@@ -43,7 +41,7 @@ class Robot(object):
         # Clear the display
         self.leds.clear()
         self.leds.show()
-        
+
         # Reset the servos
         self.servos.stop_all()
 
@@ -55,12 +53,6 @@ class Robot(object):
             mode = Raspi_MotorHAT.BACKWARD
         output_speed = (abs(speed) * 255) / 100
         return mode, output_speed
-
-    def set_pan(self, angle):
-        self.servos.set_servo_angle(1, angle)
-    
-    def set_tilt(self, angle):
-        self.servos.set_servo_angle(0, angle)
 
     def set_left(self, speed):
         mode, output_speed = self.convert_speed(speed)
@@ -75,3 +67,9 @@ class Robot(object):
     def stop_motors(self):
         self.left_motor.run(Raspi_MotorHAT.RELEASE)
         self.right_motor.run(Raspi_MotorHAT.RELEASE)
+
+    def set_pan(self, angle):
+        self.servos.set_servo_angle(1, angle)
+    
+    def set_tilt(self, angle):
+        self.servos.set_servo_angle(0, angle)

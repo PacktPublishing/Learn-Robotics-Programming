@@ -1,7 +1,11 @@
 from Raspi_MotorHAT.Raspi_PWM_Servo_Driver import PWM
 
 class Servos(object):
-    def __init__(self, addr=0x6f):
+    def __init__(self, addr=0x6f, deflect_90_in_ms = 0.9):
+        """addr: The i2c address of the PWM chip.
+        deflect_90_in_ms: set this to calibrate the servo motors. 
+                          it is what a deflection of 90 degrees is
+                          in terms of a pulse length in milliseconds."""
         self._pwm = PWM(addr)
         # This sets the timebase for it all
         pwm_frequency = 60
@@ -13,8 +17,6 @@ class Servos(object):
         pulse_steps = 4096.0
         # Mid point of the servo pulse length in milliseconds.
         servo_mid_point_ms = 1.5
-        # What a deflection of 90 degrees is in pulse length in milliseconds
-        deflect_90_in_ms = 0.9
         # Steps for every millisecond.
         steps_per_ms = pulse_steps / period_in_ms
         # Steps for a degree
@@ -29,13 +31,14 @@ class Servos(object):
         self._pwm.setPWM(14, 0, 0)
         self._pwm.setPWM(15, 0, 0)
 
-    def convert_degrees_to_pwm(self, position):
+    def _convert_degrees_to_pwm(self, position):
         return int(self.servo_mid_point_steps + (position * self.steps_per_degree))
 
     def set_servo_angle(self, channel, angle):
+        """position: The position in degrees from the center. -90 to 90"""
         # Validate
         if angle > 90 or angle < -90:
             raise ValueError("Angle outside of range")
         # Then set the position
-        off_step = self.convert_degrees_to_pwm(angle)
+        off_step = self._convert_degrees_to_pwm(angle)
         self._pwm.setPWM(channel, 0, off_step)
