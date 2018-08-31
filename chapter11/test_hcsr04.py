@@ -1,16 +1,23 @@
-from gpiozero import GPIODevice, InputDevice, OutputDevice, DigitalInputDevice, DigitalOutputDevice
 import time
+from gpiozero import DigitalInputDevice, DigitalOutputDevice
 
-# Setup devices
+# Setup devices, an input device and an output device, with pin numbers for the sensors.
 print "Prepare GPIO pins"
 
-trigger = DigitalOutputDevice(17)
-echo = DigitalInputDevice(27)
+# Left sensor
+left_trigger = DigitalOutputDevice(17)
+left_echo = DigitalInputDevice(27)
 
-trigger.value = False
+left_trigger.value = False
 
-print "Waiting For Sensor To Settle"
+# Right sensor
+right_trigger = DigitalOutputDevice(5)
+right_echo = DigitalInputDevice(6)
 
+right_trigger.value = False
+
+# wait a little, to iron out spurious responses.
+print "Warm up time"
 time.sleep(0.5)
 
 def make_measurement(trig_device, echo_device):
@@ -20,7 +27,7 @@ def make_measurement(trig_device, echo_device):
 
     # This off-on-off pulse tells the device to make a measurement
     trig_device.value = True
-    time.sleep(0.00001)
+    time.sleep(0.00001) # This is the 10 microseconds
     trig_device.value = False
 
     # This pulse end can be used to detect we didn't get a reading
@@ -35,7 +42,7 @@ def make_measurement(trig_device, echo_device):
     while echo_device.pin.state == 1 and time.time() < time_out:
         pulse_end = time.time()
 
-    # If we don't get a pulse end, we timed out. Return a maximum distance (we could have missed the pule if it was too close too)
+    # If we don't get a pulse end, we timed out. Return a maximum distance (we could have missed the pulse if it was too close too)
     if pulse_end is None:
         print "timed out"
         return 100
@@ -50,8 +57,9 @@ def make_measurement(trig_device, echo_device):
     return distance
 
 while True:
-    # Make our measurement and print it
-    distance = make_measurement(trigger, echo)
-    print "Distance: ",distance,"cm"
+    # Make our measurements and print them
+    left_distance = make_measurement(left_trigger, left_echo)
+    right_distance = make_measurement(right_trigger, right_echo)
+    print "Left: ", left_distance, "cm", "Right:", right_distance
     # Sleep a bit before making another.
     time.sleep(0.5)
