@@ -25,7 +25,7 @@ def convert_degrees_to_pwm(position):
     return int(servo_mid_point_steps + (position * steps_per_degree))
 
 def stop():
-    # Turn on at 0, off at 0
+    # Set pin off flag
     pwm.setPWM(0, 0, 4096)
 
 atexit.register(stop)
