@@ -7,15 +7,17 @@ import atexit
 #import leds_led_shim
 import leds_8_apa102c
 from servos import Servos
+from distance_sensor_hcsr04 import DistanceSensor, NoDistanceRead
 
 class Robot(object):
-    def __init__(self, motorhat_addr=0x6f):
+    def __init__(self, motorhat_addr=0x6f, drive_enabled=True):
         # Setup the motorhat with the passed in address
         self._mh = Raspi_MotorHAT(addr=motorhat_addr)
 
         # get local variable for each motor
         self.left_motor = self._mh.getMotor(1)
         self.right_motor = self._mh.getMotor(2)
+        self.drive_enabled = drive_enabled
 
         # ensure the motors get stopped when the code exits
         atexit.register(self.stop_all)
@@ -23,6 +25,10 @@ class Robot(object):
         # Setup the line sensors
         self.left_line_sensor = LineSensor(23, queue_len=3, pull_up=True)
         self.right_line_sensor = LineSensor(16, queue_len=3, pull_up=True)
+
+        # Setup The Distance Sensors
+        self.left_distance_sensor = DistanceSensor(17, 27)
+        self.right_distance_sensor = DistanceSensor(5, 6)
 
         # Setup the Leds
         self.leds = leds_8_apa102c.Leds()
@@ -56,11 +62,15 @@ class Robot(object):
         return mode, output_speed
 
     def set_left(self, speed):
+        if not self.drive_enabled:
+            return
         mode, output_speed = self.convert_speed(speed)
         self.left_motor.setSpeed(output_speed)
         self.left_motor.run(mode)
 
     def set_right(self, speed):
+        if not self.drive_enabled:
+            return
         mode, output_speed = self.convert_speed(speed)
         self.right_motor.setSpeed(output_speed)
         self.right_motor.run(mode)
@@ -74,5 +84,3 @@ class Robot(object):
     
     def set_tilt(self, angle):
         self.servos.set_servo_angle(0, angle)
-
-    def _get_distance_cm(self, trigger, echo):

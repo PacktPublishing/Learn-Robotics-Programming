@@ -23,29 +23,30 @@ time.sleep(0.5)
 def make_measurement(trig_device, echo_device):
     """Function to get the distance measurement"""
     # Timeout - we'll use this to stop it getting stuck
-    time_out = time.time() + 2
+    time_out = time.time() + 1
 
     # This off-on-off pulse tells the device to make a measurement
     trig_device.value = True
     time.sleep(0.00001) # This is the 10 microseconds
     trig_device.value = False
 
-    # This pulse end can be used to detect we didn't get a reading
-    pulse_end = None
-
-    # Here, we wait for the pin state to stop being 0, that is, to go from low to high, or we run out of time.
-    # When it rises, this is the real pulse start.
-    while echo_device.pin.state == 0 and time.time() < time_out:
+    # Here, we wait for the pin state to stop being 0, that is, to go from low to high
+    # When it rises, this is the real pulse start. Assign it once - it may already have changed!
+    pulse_start = time.time()
+    while echo_device.pin.state == 0:
         pulse_start = time.time()
+        # We ran out of time here.
+        if pulse_start > time_out:
+            print "timed out - missed pulse start"
+            return 100
 
     # Now we wait for the echo_device pin to stop being 1, going from high, to low, the end of the pulse.
-    while echo_device.pin.state == 1 and time.time() < time_out:
+    pulse_end = time.time()
+    while echo_device.pin.state == 1:
         pulse_end = time.time()
-
-    # If we don't get a pulse end, we timed out. Return a maximum distance (we could have missed the pulse if it was too close too)
-    if pulse_end is None:
-        print "timed out"
-        return 100
+        if pulse_end > time_out:
+            print "timed out - pulse end too long"
+            return 100
 
     # The duration is the time between the start and end of pulse in seconds.
     pulse_duration = pulse_end - pulse_start
