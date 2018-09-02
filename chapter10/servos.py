@@ -23,13 +23,15 @@ class Servos(object):
         self.steps_per_degree = (deflect_90_in_ms * steps_per_ms) / 90.0
         # Mid point of the servo in steps
         self.servo_mid_point_steps = servo_mid_point_ms * steps_per_ms
+        # Prepare servo's turned off
+        self.stop_all()
 
     def stop_all(self):
-        # Turn on at 0, off at 0
-        self._pwm.setPWM(0, 0, 0)
-        self._pwm.setPWM(1, 0, 0)
-        self._pwm.setPWM(14, 0, 0)
-        self._pwm.setPWM(15, 0, 0)
+        # 0 in start is nothing, 4096 sets the OFF bit.
+        self._pwm.setPWM(0, 0, 4096)
+        self._pwm.setPWM(1, 0, 4096)
+        self._pwm.setPWM(14, 0, 4096)
+        self._pwm.setPWM(15, 0, 4096)
 
     def _convert_degrees_to_pwm(self, position):
         return int(self.servo_mid_point_steps + (position * self.steps_per_degree))

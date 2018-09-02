@@ -26,7 +26,7 @@ def convert_degrees_to_pwm(position):
 
 def stop():
     # Turn on at 0, off at 0
-    pwm.setPWM(0, 0, 0)
+    pwm.setPWM(0, 0, 4096)
 
 atexit.register(stop)
 
