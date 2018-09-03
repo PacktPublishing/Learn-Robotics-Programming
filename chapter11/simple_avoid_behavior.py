@@ -1,34 +1,33 @@
 from robot import Robot, NoDistanceRead
 from time import sleep
 
-class ObstacleAvoidingBehavior(object):
-    def __init__(self, the_robot, forward_speed=60, cornering=-60):
-        self.robot = the_robot
-        self.forward_speed = forward_speed
-        self.cornering = cornering
 
+class ObstacleAvoidingBehavior(object):
+    """Simple obstacle avoiding"""
+    def __init__(self, the_robot):
+        self.robot = the_robot
+        
+        # Calculations for the LEDs
         led_half = int(self.robot.leds.leds_count/2)
         self.max_distance = 100
         self.leds_per_distance = led_half / float(self.max_distance)
-        print("Leds per distance", self.leds_per_distance)
+        # print("Leds per distance", self.leds_per_distance)
         self.sense_colour = (255, 0, 0)
 
-        self.threshold = 15 # Turn at 15 cm
+    def distance_to_led_count(self, distance):
+        # Invert so closer means more LED's. 
+        inverted = self.max_distance - min(distance, self.max_distance)
+        led_count = int(round(inverted * self.leds_per_distance))
+        return led_count
 
     def display_state(self, left_distance, right_distance):
         # Clear first
         self.robot.leds.clear()
-        # Right side 
-        # Invert so closer means more LED's. 
-        inverted = self.max_distance - min(right_distance, self.max_distance)
-        led_count = int(round(inverted * self.leds_per_distance))
-        print("Left led count", led_count, inverted)
+        # Right side
+        led_count = self.distance_to_led_count(right_distance)
         self.robot.leds.set_range(range(led_count), self.sense_colour)
         # Left side
-        # Invert again
-        inverted = self.max_distance - min(left_distance, self.max_distance)
-        led_count = int(round(inverted * self.leds_per_distance))
-        print("Right led count", led_count, inverted)
+        led_count = self.distance_to_led_count(right_distance)
         # Bit trickier - must go from below the leds count, to the leds count.
         start = self.robot.leds.leds_count - led_count
         self.robot.leds.set_range(range(start, self.robot.leds.leds_count), self.sense_colour)
@@ -36,10 +35,17 @@ class ObstacleAvoidingBehavior(object):
         # Now show this display
         self.robot.leds.show()
 
+    def get_motor_speed(self, distance):
+        """This method chooses a speed for a motor based on the distance from it's sensor"""
+        if distance < 20:
+            return -100
+        else:
+            return 100
+
     def run(self):
         # Drive forward
-        self.robot.set_left(self.forward_speed)
-        self.robot.set_right(self.forward_speed)
+        self.robot.set_pan(0)
+        self.robot.set_tilt(0)
         while True:
             # Get the sensor readings
             try:
@@ -50,20 +56,14 @@ class ObstacleAvoidingBehavior(object):
                 right_distance = self.robot.right_distance_sensor.get_distance()
             except NoDistanceRead:
                 right_distance = 100
-            print("Distances: l", left_distance, "r", right_distance)
             # Display this
             self.display_state(left_distance, right_distance)
 
-            # Favour turning right, check the left sensor first
-            if left_distance < self.threshold:
-                self.robot.set_right(self.cornering)
-            # Now turning left if the right sensor is under the threshold
-            elif right_distance < self.threshold:
-                self.robot.set_left(self.cornering)
-            # Otherwise we go forward
-            else:
-                self.robot.set_left(self.forward_speed)
-                self.robot.set_right(self.forward_speed)
+            # Get speeds for motors from distances
+            print("Distances: l", left_distance, "r", right_distance)
+            self.robot.set_left(self.get_motor_speed(left_distance))
+            self.robot.set_right(self.get_motor_speed(right_distance))
+
             # Wait a little
             sleep(0.1)
 

@@ -6,7 +6,7 @@ off_line_color = (0, 0, 255)
 
 class LineFollowingBehavior:
     # Note - this is the robot ON the line. 
-    def __init__(self, the_robot, forward_speed=30, cornering=-30):
+    def __init__(self, the_robot, forward_speed=80, cornering=-80):
         self.robot = the_robot
         self.forward_speed = forward_speed
         self.cornering = cornering

@@ -5,7 +5,7 @@ from gpiozero import DigitalInputDevice, DigitalOutputDevice
 # This is an exception, we will send this when get distance fails to make a measurement
 class NoDistanceRead(Exception):
     """The system was unable to make a measurement"""
-    pass
+    pass # We aren't doing anything special, but python syntax demands us to be explicit about this.
 
 class DistanceSensor(object):
     """Represents a distance sensor."""
