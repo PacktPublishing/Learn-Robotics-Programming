@@ -6,9 +6,11 @@ class Leds(object):
         self.device = spidev.SpiDev()
         self.device.open(0, 0)
         self.device.max_speed_hz = 15000
-
-        self.count = 8
         self.colors = [(0,0,0)] * self.count
+
+    @property
+    def count(self):
+        return 8
 
     def set_one(self, led_number, color):
         assert(len(color) == 3)
