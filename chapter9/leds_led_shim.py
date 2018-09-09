@@ -2,7 +2,7 @@ import ledshim
 
 class Leds(object):
     def __init__(self):
-        self.leds_count = 24
+        self.count = 24
 
     def set_one(self, led_number, color):
         ledshim.set_pixel(led_number, *color)

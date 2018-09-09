@@ -14,9 +14,9 @@ class FollowingRainbows:
         self.right_brightness = 0
         self.main_index = 0
 
-        led_qtr = int(self.robot.leds.leds_count/4)
+        led_qtr = int(self.robot.leds.count/4)
         self.right_indicator = range(0, led_qtr)
-        self.left_indicator = range(self.robot.leds.leds_count - led_qtr, self.robot.leds.leds_count)
+        self.left_indicator = range(self.robot.leds.count - led_qtr, self.robot.leds.count)
 
 
     def when_left_crosses_line(self):
@@ -38,8 +38,8 @@ class FollowingRainbows:
 
     def make_display(self):
         # main rainbow
-        half_leds = int(self.robot.leds.leds_count/2)
-        qtr_leds = int(self.robot.leds.leds_count/4)
+        half_leds = int(self.robot.leds.count/2)
+        qtr_leds = int(self.robot.leds.count/4)
         for n in range(0, half_leds):
             offset = (240/half_leds) * n
             ih = (self.main_index + offset) % 360
@@ -57,7 +57,7 @@ class FollowingRainbows:
             rh = (self.right_index + offset) % 360
             ch = self.hsv_to_rgb(rh / 360.0, 1.0, self.right_brightness)
             rgb = [int(c*255) for c in ch]
-            self.robot.leds.set_one(self.robot.leds.leds_count-1-n, rgb)
+            self.robot.leds.set_one(self.robot.leds.count-1-n, rgb)
         self.left_index += 5
         self.right_index -= 5
         if self.left_brightness >= 0.1:
