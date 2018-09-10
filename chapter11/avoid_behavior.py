@@ -59,7 +59,6 @@ class ObstacleAvoidingBehavior(object):
         return nearest_speed, furthest_speed, delay
 
     def run(self):
-        # Drive forward
         self.robot.set_pan(0)
         self.robot.set_tilt(0)
         while True:

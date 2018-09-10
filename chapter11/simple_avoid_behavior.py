@@ -43,7 +43,6 @@ class ObstacleAvoidingBehavior(object):
             return 100
 
     def run(self):
-        # Drive forward
         self.robot.set_pan(0)
         self.robot.set_tilt(0)
         while True:
