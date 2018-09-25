@@ -11,6 +11,10 @@ from distance_sensor_hcsr04 import DistanceSensor, NoDistanceRead
 from encoder_counter import EncoderCounter
 
 class Robot(object):
+    wheel_diameter_mm = 69.0
+    ticks_per_revolution = 40.0
+    wheel_distance_mm =  140.0
+
     def __init__(self, motorhat_addr=0x6f, drive_enabled=True):
         # Setup the motorhat with the passed in address
         self._mh = Raspi_MotorHAT(addr=motorhat_addr)
@@ -32,6 +36,7 @@ class Robot(object):
         self.right_distance_sensor = DistanceSensor(5, 6)
 
         # Setup the Encoders
+        EncoderCounter.set_constants(self.wheel_diameter_mm, self.ticks_per_revolution)
         self.left_encoder = EncoderCounter(4)
         self.right_encoder = EncoderCounter(26)
 
