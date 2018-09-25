@@ -52,7 +52,6 @@ def drive_distances(bot, left_distance, right_distance, speed=80):
 
         # How fast should the motor move to get there?
         adjustment = controller.get_value(error)
-        # secondary_speed += adjustment
 
         set_secondary(int(secondary_speed + adjustment))
         secondary_encoder.set_direction(math.copysign(1, secondary_speed+adjustment))
@@ -101,6 +100,4 @@ radius_in_ticks = EncoderCounter.mm_to_ticks(radius)
 
 for n in range(4):
     drive_distances(bot, distance_in_ticks, distance_in_ticks)
-    drive_arc(bot, 90, radius_in_ticks, nominal_speed=50)
-
-bot.stop_motors()
+    drive_arc(bot, 90, radius_in_ticks, speed=50)
