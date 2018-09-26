@@ -3,7 +3,7 @@ from pid_controller import PIController
 import time
 
 
-def drive_distances(bot, distance, speed=80):
+def drive_distance(bot, distance, speed=80):
     # Use left as "primary"  motor, the right is keeping up
     set_primary        = bot.set_left
     primary_encoder    = bot.left_encoder
@@ -24,7 +24,7 @@ def drive_distances(bot, distance, speed=80):
         # How fast should the motor move to get there?
         set_secondary(int(speed + adjustment))
         # Some debug
-        print("Primary c:{:.2f} ({:.2f} mm)\tSecondary c:{:.2f} ({:.2f} mm) e:{:.2f} adjustment: {:.2f}".format(
+        print("Primary c:{} ({} mm)\tSecondary c:{} ({} mm) e:{} adjustment: {:.2f}".format(
             primary_encoder.pulse_count, primary_encoder.distance_in_mm(),
             secondary_encoder.pulse_count, secondary_encoder.distance_in_mm(),
             error,
@@ -35,4 +35,4 @@ def drive_distances(bot, distance, speed=80):
 bot = Robot()
 distance_to_drive = 1000 # in mm - this is a meter
 distance_in_ticks = EncoderCounter.mm_to_ticks(distance_to_drive)
-drive_distances(bot, distance_in_ticks, distance_in_ticks)
+drive_distance(bot, distance_in_ticks, distance_in_ticks)

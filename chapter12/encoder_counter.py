@@ -12,16 +12,16 @@ class EncoderCounter(object):
     def when_changed(self):
         self.pulse_count += self.direction
 
+    def set_direction(self, direction):
+        # This should be -1 or 1. 
+        assert abs(direction)==1, "Direction %s should be 1 or -1" % direction
+        self.direction = direction
+
     def reset(self):
         self.pulse_count = 0
 
     def stop(self):
         self.device.close()
-
-    def set_direction(self, direction):
-        # This should be -1 or 1. 
-        assert abs(direction)==1, "Direction %.2f should be 1 or -1" % direction
-        self.direction = direction
 
     def distance_in_mm(self):
         return int(self.pulse_count * EncoderCounter.ticks_to_mm_const)
