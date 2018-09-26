@@ -1,0 +1,17 @@
+<html>
+<head>
+  <title>My Robot Menu</title>
+</head>
+<body>
+  <h1>My Robot Menu</h1>
+  {% if message %}
+    <p>{{ message }}</p>
+  {% endif %}
+  <ul>
+    {% for item in menu %}
+      <li><a href="/run/{{ item.mode_name }}">{{ item.text }}</a></li>
+    {% endfor %}
+    <li><a href="/stop">Stop</a></li>
+  </ul>
+</body>
+</html>
