@@ -13,7 +13,7 @@ class EncoderCounter(object):
         self.pulse_count += self.direction
 
     def set_direction(self, direction):
-        # This should be -1 or 1. 
+        """ This should be -1 or 1. """
         assert abs(direction)==1, "Direction %s should be 1 or -1" % direction
         self.direction = direction
 
