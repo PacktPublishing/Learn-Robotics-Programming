@@ -14,22 +14,22 @@ class ObstacleAvoidingBehavior(object):
         # print("Leds per distance", self.leds_per_distance)
         self.sense_colour = (255, 0, 0)
 
-    def distance_to_led_count(self, distance):
+    def distance_to_led_bar(self, distance):
         # Invert so closer means more LED's. 
         inverted = self.max_distance - min(distance, self.max_distance)
-        led_count = int(round(inverted * self.leds_per_distance))
-        return led_count
+        led_bar = int(round(inverted * self.leds_per_distance))
+        return led_bar
 
     def display_state(self, left_distance, right_distance):
         # Clear first
         self.robot.leds.clear()
         # Right side
-        led_count = self.distance_to_led_count(right_distance)
-        self.robot.leds.set_range(range(led_count), self.sense_colour)
+        led_bar = self.distance_to_led_bar(right_distance)
+        self.robot.leds.set_range(range(led_bar), self.sense_colour)
         # Left side
-        led_count = self.distance_to_led_count(right_distance)
+        led_bar = self.distance_to_led_bar(left_distance)
         # Bit trickier - must go from below the leds count, to the leds count.
-        start = self.robot.leds.count - led_count
+        start = self.robot.leds.count - led_bar
         self.robot.leds.set_range(range(start, self.robot.leds.count), self.sense_colour)
 
         # Now show this display
