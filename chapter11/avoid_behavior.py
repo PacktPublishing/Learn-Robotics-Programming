@@ -76,7 +76,7 @@ class ObstacleAvoidingBehavior(object):
 
             # Get speeds for motors from distances
             nearest_speed, furthest_speed, delay = self.get_speeds(min(left_distance, right_distance))
-            print("Distances: l", left_distance, "r", right_distance, "Speeds: n", nearest_speed, 'f', furthest_speed,
+            print("Distances: l", left_distance, "r", right_distance, "Speeds: n", nearest_speed, "f", furthest_speed,
                 "Delays: l", delay)
 
             # Send this to the motors
