@@ -30,6 +30,6 @@ class EncoderCounter(object):
     def mm_to_ticks(mm):
         return mm / EncoderCounter.ticks_to_mm_const
 
-    @classmethod
-    def set_constants(cls, wheel_diameter_mm, ticks_per_revolution):
-        cls.ticks_to_mm_const = (math.pi / ticks_per_revolution) * wheel_diameter_mm
+    @staticmethod
+    def set_constants(wheel_diameter_mm, ticks_per_revolution):
+        EncoderCounter.ticks_to_mm_const = (math.pi / ticks_per_revolution) * wheel_diameter_mm
