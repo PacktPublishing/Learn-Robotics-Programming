@@ -23,5 +23,5 @@ bot.set_left(90)
 bot.set_right(90)
 
 while time.time() < stop_at_time:
-    print "Left:", left_encoder.pulse_count, "Right:", right_encoder.pulse_count
+    print("Left:", left_encoder.pulse_count, "Right:", right_encoder.pulse_count)
     time.sleep(0.05)

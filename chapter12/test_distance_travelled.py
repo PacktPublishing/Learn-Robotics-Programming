@@ -1,3 +1,4 @@
+from __future__ import print_function
 from robot import Robot
 import time
 import math
@@ -16,6 +17,6 @@ bot.set_left(90)
 bot.set_right(90)
 
 while time.time() < stop_at_time:
-    print "Left:", ticks_to_mm(bot.left_encoder.pulse_count), \
-        "Right:", ticks_to_mm(bot.right_encoder.pulse_count)
+    print("Left:", ticks_to_mm(bot.left_encoder.pulse_count), \
+        "Right:", ticks_to_mm(bot.right_encoder.pulse_count))
     time.sleep(0.05)

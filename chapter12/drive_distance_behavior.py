@@ -1,3 +1,4 @@
+from __future__ import print_function
 from robot import Robot, EncoderCounter
 from pid_controller import PIController
 import time

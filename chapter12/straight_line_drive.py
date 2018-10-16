@@ -1,9 +1,10 @@
+from __future__ import print_function
 from robot import Robot
 from pid_controller import PIController
 import time
 
 bot = Robot()
-stop_at_time = time.time() + 60
+stop_at_time = time.time() + 5
 
 speed = 80
 bot.set_left(speed)
@@ -19,10 +20,10 @@ while time.time() < stop_at_time:
     # Get the speed
     adjustment = pid.get_value(error)
     right_speed = int(speed + adjustment)
-    print "left", left, \
-        "right", right, \
-        "right_speed:", right_speed, \
-        "error:", error, \
-        "adjustment: %.2f" % adjustment
+    print("left", left,
+        "right", right,
+        "right_speed:", right_speed,
+        "error:", error,
+        "adjustment: %.2f" % adjustment)
     # Appy it to the right motor
     bot.set_right(right_speed)
