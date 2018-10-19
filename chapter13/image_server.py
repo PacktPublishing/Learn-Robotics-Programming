@@ -17,13 +17,13 @@ def frames_for_camera():
     time.sleep(0.1)
 
     for frame in pi_camera_stream.start_stream(camera):
-        encoded_bytes = pi_camera_stream.get_encoded_bytes_for_stream(frame)
+        encoded_bytes = pi_camera_stream.get_encoded_bytes_for_frame(frame)
         # Need to turn this into http multipart data.
         yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + encoded_bytes + b'\r\n')
 
-@app.route('/video_feed')
-def video_feed():
+@app.route('/display')
+def display():
     return Response(frames_for_camera(),
         mimetype='multipart/x-mixed-replace; boundary=frame')
 

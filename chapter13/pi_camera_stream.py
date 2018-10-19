@@ -20,6 +20,20 @@ def start_stream(camera):
         yield raw_frame.array
         image_storage.truncate(0)
 
-def get_encoded_bytes_for_stream(frame):
+def get_encoded_bytes_for_frame(frame):
     result, encoded_image = cv2.imencode('.jpg', frame, encode_param)
     return encoded_image.tostring()
+
+def get_largest_enclosing(masked_image):
+    """Find the largest enclosing circle for all contours in a masked image"""
+    # Find the contours of the image (outline points)
+    contour_image = np.copy(masked_image)
+    contours, _ = cv2.findContours(contour_image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    # Find enclosing circles
+    circles = [cv2.minEnclosingCircle(cnt) for cnt in contours]
+    # Filter for the largest one
+    largest = (0, 0), 0
+    for (x, y), radius in circles:
+        if radius > largest[1]:
+            largest = (int(x), int(y)), int(radius)
+    return largest
