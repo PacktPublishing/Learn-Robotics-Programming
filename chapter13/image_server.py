@@ -1,7 +1,7 @@
-from flask import Flask, render_template, Response
-import pi_camera_stream
 import time
 
+from flask import Flask, render_template, Response
+import pi_camera_stream
 
 app = Flask(__name__)
 
@@ -9,7 +9,7 @@ app = Flask(__name__)
 def index():
     return render_template('image_server.html')
 
-def frames_for_camera():
+def frame_generator():
     """This is our main video feed"""
     camera = pi_camera_stream.setup_camera()
 
@@ -24,7 +24,7 @@ def frames_for_camera():
 
 @app.route('/display')
 def display():
-    return Response(frames_for_camera(),
+    return Response(frame_generator(),
         mimetype='multipart/x-mixed-replace; boundary=frame')
 
 app.run(host="0.0.0.0", debug=True, port=5001)
