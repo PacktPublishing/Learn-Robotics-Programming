@@ -9,7 +9,7 @@ from flask import Flask, render_template, Response
 
 app = Flask(__name__)
 control_queue = Queue()
-display_queue = Queue(maxsize=1)
+display_queue = Queue(maxsize=2)
 display_template = 'image_server'
 
 @app.route('/')
@@ -41,6 +41,8 @@ def start_server_process(template_name):
     """Start the process, call .terminate to close it"""
     global display_template
     display_template = template_name
+    # app.debug=True
+    # app.use_reloader = False
     server = Process(target=app.run, kwargs={"host": "0.0.0.0", "port": 5001})
     server.start()
     return server
@@ -48,7 +50,7 @@ def start_server_process(template_name):
 def put_output_image(encoded_bytes):
     """Queue an output image"""
     if display_queue.empty():
-        display_queue.put_nowait(encoded_bytes)
+        display_queue.put(encoded_bytes)
 
 def get_control_instruction():
     """Get control instructions from the web app, if any"""
@@ -56,4 +58,4 @@ def get_control_instruction():
         # nothing
         return None
     else:
-        return control_queue.get_nowait()
+        return control_queue.get()
