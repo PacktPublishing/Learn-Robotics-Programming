@@ -79,8 +79,8 @@ class ColorTrackingBehavior(object):
         speed_pid = PIController(proportional_constant=0.8, 
             integral_constant=0.1, windup_limit=100)
         # direction pid - how far from the middle X is.
-        direction_pid = PIController(proportional_constant=0.5, 
-            integral_constant=0, windup_limit=400)
+        direction_pid = PIController(proportional_constant=0.25, 
+            integral_constant=0.1, windup_limit=400)
         # warm up and servo move time
         time.sleep(0.1)
         # Servo's will be in place - stop them for now.
