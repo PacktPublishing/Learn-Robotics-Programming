@@ -35,7 +35,7 @@ class FaceTrackBehavior(object):
             self.pan_pid.reset()
             self.tilt_pid.reset()
             self.robot.servos.stop_all()
-        if instruction == "exit":
+        elif instruction == "exit":
             print("Stopping")
             exit()
 
