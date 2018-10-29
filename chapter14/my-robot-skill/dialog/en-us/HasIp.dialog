@@ -1,3 +1,0 @@
-Has the IP address {{ ip_address }}
-is at ip address {{ ip_address }}
-is at address {{ ip_address }}
