@@ -1,11 +1,11 @@
 from gpiozero import DigitalInputDevice
 import math
 
-class EncoderCounter(object):
+class EncoderCounter(DigitalInputDevice):
     ticks_to_mm_const = None # you must set this up before using distance methods
     def __init__(self, pin_number):
-        self.device = DigitalInputDevice(pin=pin_number)
-        self.device.pin.when_changed = self.when_changed
+        DigitalInputDevice.__init__(self, pin=pin_number)
+        self.pin.when_changed = self.when_changed
         self.pulse_count = 0
         self.direction = 1
 
@@ -19,9 +19,6 @@ class EncoderCounter(object):
 
     def reset(self):
         self.pulse_count = 0
-
-    def stop(self):
-        self.device.close()
 
     def distance_in_mm(self):
         return int(self.pulse_count * EncoderCounter.ticks_to_mm_const)
