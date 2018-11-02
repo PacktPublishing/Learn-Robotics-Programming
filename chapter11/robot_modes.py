@@ -38,14 +38,14 @@ class RobotModes(object):
     def is_running(self):
         """Check if there is a process running. Returncode is only set when a process finishes"""
         return self.current_process and self.current_process.returncode is None
-    
+  
     def run(self, mode_name):
         """Run the mode as a subprocess, but not if we still have one running"""
-        if not self.is_running():
-            script = self.mode_config[mode_name]
-            self.current_process = subprocess.Popen(["python", script])
-            return True
-        return False
+        while self.is_running():
+            self.stop()
+        script = self.mode_config[mode_name]
+        self.current_process = subprocess.Popen(["python", script])
+        return True
 
     def stop(self):
         """Stop a process"""
