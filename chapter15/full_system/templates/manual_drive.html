@@ -1,0 +1,35 @@
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" type="text/css" href="/static/display.css">
+        <script src="/static/lib/jquery-3.3.1.min.js"></script>
+        <script src="/static/touch-slider.js?"></script>
+        <script type="text/javascript">
+            // var in_flight = false;
+            var sequence = 0;
+            function set_motor(name, speed) {
+                speed = Math.min(100, Math.max(-100, speed));
+                $.get('/control/set_' + name + '/' + speed, sequence);
+            }
+
+            $(function () {
+                var leftSlider = new Slider('left_slider', function(speed) {set_motor('left', speed)});
+                leftSlider.setup();
+                var rightSlider = new Slider('right_slider', function(speed) {set_motor('right', speed)});
+                rightSlider.setup();
+            });
+        </script>
+    </head>
+    <body>
+        <svg width="20%" height="70%" id="left_slider" class="slider_track">
+            <circle cx="50%" cy="50%" r="15%" class="slider_tick"/>
+        </svg>
+        <a class="button" href="/control/exit">Exit</a>
+        <div id="video"><img src="{{ url_for('display') }}" /></div>
+        <svg width="20%" height="70%" id="right_slider" class="slider_track">
+            <circle cx="50%" cy="50%" r="15%" class="slider_tick"/>
+        </svg>
+    </body>
+</html>
