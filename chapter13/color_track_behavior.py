@@ -29,7 +29,7 @@ class ColorTrackingBehavior(object):
             self.running = True
         elif instruction == "stop":
             self.running = False
-        if instruction == "exit":
+        elif instruction == "exit":
             print("Stopping")
             exit()
 
