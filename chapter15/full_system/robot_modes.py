@@ -1,5 +1,5 @@
 import subprocess
-
+import os
 
 class RobotModes(object):
     """Our robot behaviors and tests as running modes"""
@@ -10,14 +10,18 @@ class RobotModes(object):
     # * We may want to switch the script it really runs (avoid_behavior.py for simple_avoid_behavior.py)
     # * It's not a great security idea to let this run anything but the scripts we specify here.
     mode_config = {
-        "avoid_behavior": "avoid_behavior.py",
-        "circle_head": "circle_pan_tilt_behavior.py",
-        "test_leds": "leds_test.py",
-        "test_hcsr04": "test_hcsr04.py",
-        "stop_at_line": "stop_at_line.py",
-        "line_following": "line_following_behavior.py",
-        "behavior_line": "straight_line_drive.py",
-        "behavior_path": "drive_square.py"
+        "avoid_behavior": {"script": "avoid_behavior.py"},
+        "circle_head": {"script": "circle_pan_tilt_behavior.py"},
+        "test_leds": {"script": "leds_test.py"},
+        "test_hcsr04": {"script": "test_hcsr04.py"},
+        "stop_at_line": {"script": "stop_at_line.py"},
+        "line_following": {"script": "line_following_behavior.py"},
+        "behavior_line": {"script": "straight_line_drive.py"},
+        "behavior_path": {"script": "drive_square.py"},
+        "color_track": {"script": "color_track_behavior.py", "server": True},
+        "face_track": {"script": "face_track_behavior.py", "server": True},
+        "manual_drive": {"script": "manual_drive.py", "server": True},
+        "image_server": {"script": "image_server.py", "server": True}
     }
 
     # Menu config is a list of mode_names and text to display. Ordered as we'd like our menu.
@@ -29,7 +33,11 @@ class RobotModes(object):
         {"mode_name": "stop_at_line", "text": "Stop At Line"},
         {"mode_name": "line_following", "text": "Line Following"},
         {"mode_name": "behavior_line", "text": "Drive In A Line"},
-        {"mode_name": "behavior_path", "text": "Drive a Square Path"}
+        {"mode_name": "behavior_path", "text": "Drive a Square Path"},
+        {"mode_name": "image_server", "text": "Test camera server"},
+        {"mode_name": "color_track", "text": "Track Colored Objects"},
+        {"mode_name": "face_track", "text": "Track Faces"},
+        {"mode_name": "manual_drive", "text": "Drive manually"},
     ]
 
     def __init__(self):
@@ -43,9 +51,18 @@ class RobotModes(object):
         """Run the mode as a subprocess, but not if we still have one running"""
         while self.is_running():
             self.stop()
-        script = self.mode_config[mode_name]
-        self.current_process = subprocess.Popen(["python", script])
+        script = self.mode_config[mode_name]['script']
+        # The restarter/debug nature of the menu can spill to the client
+        env = dict(os.environ)
+        if env.get('WERKZEUG_SERVER_FD'):
+            del env['WERKZEUG_SERVER_FD']
+        if env.get('WERKZEUG_RUN_MAIN'):
+            del env['WERKZEUG_RUN_MAIN']
+        self.current_process = subprocess.Popen(["python", script], env=env)
         return True
+
+    def should_redirect(self, mode_name):
+        return self.mode_config[mode_name].get('server') is True and self.is_running()
 
     def stop(self):
         """Stop a process"""

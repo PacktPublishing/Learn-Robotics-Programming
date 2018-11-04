@@ -4,7 +4,7 @@ robot running"""
 import time
 from multiprocessing import Process, Queue
 
-from flask import Flask, render_template, Response, redirect
+from flask import Flask, render_template, Response, redirect, request
 
 
 app = Flask(__name__)
@@ -35,21 +35,27 @@ def display():
 @app.route('/exit')
 def handle_exit():
     control_queue.put('exit')
-    return redirect('http://myrobot.local:5000', code=302)
+    menu_server = request.url_root.replace('5001', '5000')
+    return redirect(menu_server, code=302)
 
 @app.route('/control/<path:control_name>')
 def control(control_name):
     control_queue.put(control_name)
     return Response('queued')
 
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
+
 def start_server_process(template_name):
     """Start the process, call .terminate to close it"""
     global display_template
     display_template = template_name
-    # app.debug=True
-    # app.use_reloader = False
     server = Process(target=app.run, kwargs={"host": "0.0.0.0", "port": 5001})
+    server.daemon = True
     server.start()
+    print("App should be running")
+    print("Process info name:", server.name, " alive:", server.is_alive())
     return server
 
 def put_output_image(encoded_bytes):
@@ -60,7 +66,6 @@ def put_output_image(encoded_bytes):
 def get_control_instruction():
     """Get control instructions from the web app, if any"""
     if control_queue.empty():
-        # nothing
         return None
     else:
         return control_queue.get()

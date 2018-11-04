@@ -52,7 +52,4 @@ class ManualDriveBehavior(object):
 print("Setting up")
 behavior = ManualDriveBehavior(Robot())
 process = start_server_process('manual_drive.html')
-try:
-    behavior.run()
-finally:
-    process.terminate()
+behavior.run()

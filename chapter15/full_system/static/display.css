@@ -32,16 +32,37 @@
     padding-bottom: 75%;
 }
 .button {
-    position: absolute;
     display: block;
     text-align: center;
     text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 1px lightblue solid;
     color: white;
     background-color: blue;
-    left: 30vw;
-    top: 5vh;
-    width: 40vw;
     height: 10vh;
     line-height: 10vh;
-    font-family: Arial, Helvetica, sans-serif;
+}
+#exitbutton {
+    position: absolute;
+    width: 40vw;
+    left: 30vw;
+    top: 5vh;
+}
+
+.menu {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.menu li {
+    list-style-type: none;
+    list-style-position: initial;
+}
+
+.menu .button {
+    margin-left: auto;
+    margin-right: auto;
+    width: 60vw;
 }

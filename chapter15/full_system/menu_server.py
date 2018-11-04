@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+import time
+from flask import Flask, render_template, redirect, request
 from robot_modes import RobotModes
 
 # A Flask App contains all its routes.
@@ -20,7 +21,21 @@ def index():
 def run(mode_name):
     # Use our robot app to run something with this mode_name
     mode_manager.run(mode_name)
+    if mode_manager.should_redirect(mode_name):
+        # Give the other process time to start
+        time.sleep(3)
+        # If it's not broken
+        if mode_manager.is_running():
+            # Now redirect
+            new_url = request.url_root.replace('5000', '5001')
+            return redirect(new_url)
+        else:
+           return render_menu(message="%s dead." % mode_name)
     return render_menu(message="%s running" % mode_name)
+
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
 
 @app.route("/stop")
 def stop():
