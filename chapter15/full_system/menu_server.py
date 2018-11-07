@@ -1,5 +1,5 @@
 import time
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, send_from_directory
 from robot_modes import RobotModes
 
 # A Flask App contains all its routes.
@@ -44,4 +44,6 @@ def stop():
     return render_menu(message='Stopped')
 
 # Start the app running
-app.run(host="0.0.0.0", debug=True)
+# if you enable debug, disable the reloader here.
+app.run(host="0.0.0.0")
+

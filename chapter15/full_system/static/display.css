@@ -6,8 +6,6 @@
 }
 .slider_tick {
     fill: mistyrose;
-    stroke: red;
-    stroke-width: 2px;
 }
 #left_slider {
     position: absolute;
@@ -17,6 +15,21 @@
 #right_slider {
     position: absolute;
     right: 5vw;
+    top: 5vh;
+}
+.button {
+    display: block;
+    height: 10vh;
+    text-align: center;
+    line-height: 10vh;
+    text-decoration: none;
+    background-color: blue;
+    color: white;
+}
+#exitbutton {
+    position: absolute;
+    width: 40vw;
+    left: 30vw;
     top: 5vh;
 }
 #video {
@@ -30,23 +43,6 @@
 #video img {
     width: 100%;
     padding-bottom: 75%;
-}
-.button {
-    display: block;
-    text-align: center;
-    text-decoration: none;
-    font-family: Arial, Helvetica, sans-serif;
-    border: 1px lightblue solid;
-    color: white;
-    background-color: blue;
-    height: 10vh;
-    line-height: 10vh;
-}
-#exitbutton {
-    position: absolute;
-    width: 40vw;
-    left: 30vw;
-    top: 5vh;
 }
 
 .menu {
@@ -65,4 +61,5 @@
     margin-left: auto;
     margin-right: auto;
     width: 60vw;
+    border: 1px solid lightblue;
 }

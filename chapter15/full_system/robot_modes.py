@@ -1,5 +1,4 @@
 import subprocess
-import os
 
 class RobotModes(object):
     """Our robot behaviors and tests as running modes"""
@@ -48,18 +47,11 @@ class RobotModes(object):
         return self.current_process and self.current_process.returncode is None
     
     def run(self, mode_name):
-        """Run the mode as a subprocess, but not if we still have one running"""
+        """Run the mode as a subprocess, and stop any we still have one running"""
         while self.is_running():
             self.stop()
         script = self.mode_config[mode_name]['script']
-        # The restarter/debug nature of the menu can spill to the client
-        env = dict(os.environ)
-        if env.get('WERKZEUG_SERVER_FD'):
-            del env['WERKZEUG_SERVER_FD']
-        if env.get('WERKZEUG_RUN_MAIN'):
-            del env['WERKZEUG_RUN_MAIN']
-        self.current_process = subprocess.Popen(["python", script], env=env)
-        return True
+        self.current_process = subprocess.Popen(["python", script])
 
     def should_redirect(self, mode_name):
         return self.mode_config[mode_name].get('server') is True and self.is_running()

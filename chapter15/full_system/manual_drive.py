@@ -1,4 +1,3 @@
-from __future__ import print_function
 import time
 from robot import Robot
 from image_app_core import start_server_process, get_control_instruction, put_output_image
@@ -13,19 +12,15 @@ class ManualDriveBehavior(object):
         instruction = get_control_instruction()
         while instruction:
             self.timeout = time.time() + 1
-            if instruction.startswith("set_left"):
-                speed_str = instruction.rsplit('/')[1]
-                self.robot.set_left(int(speed_str))
-            elif instruction.startswith("set_right"):
-                speed_str = instruction.rsplit('/')[1]
-                self.robot.set_right(int(speed_str))
-            elif instruction == "exit":
-                print("Stopping")
+            parts = instruction.split('/')
+            if parts[0] == "set_left":
+                self.robot.set_left(int(parts[1]))
+            elif parts[0] == "set_right":
+                self.robot.set_right(int(parts[1]))
+            elif parts[0] == "exit":
+                print "Stopping"
                 exit()
             instruction = get_control_instruction()
-        # Auto stop
-        if time.time() > self.timeout:
-            self.robot.stop_motors()
 
     def make_display(self, frame):
         """Create display output, and put it on the queue"""
@@ -47,9 +42,11 @@ class ManualDriveBehavior(object):
         for frame in pi_camera_stream.start_stream(camera):
             self.make_display(frame)
             self.process_control()
+            # Auto stop
+            if time.time() > self.timeout:
+                self.robot.stop_motors()
 
-
-print("Setting up")
+print "Setting up"
 behavior = ManualDriveBehavior(Robot())
 process = start_server_process('manual_drive.html')
 behavior.run()

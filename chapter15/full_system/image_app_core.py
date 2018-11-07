@@ -4,7 +4,8 @@ robot running"""
 import time
 from multiprocessing import Process, Queue
 
-from flask import Flask, render_template, Response, redirect, request
+from flask import (Flask, render_template,
+    Response, redirect, request, send_from_directory)
 
 
 app = Flask(__name__)
