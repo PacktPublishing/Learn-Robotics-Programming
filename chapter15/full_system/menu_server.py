@@ -1,11 +1,16 @@
 import time
 from flask import Flask, render_template, redirect, request, send_from_directory
 from robot_modes import RobotModes
+from leds_8_apa102c import Leds
 
 # A Flask App contains all its routes.
 app = Flask(__name__)
 # Prepare our robot modes for use
 mode_manager = RobotModes()
+
+leds = Leds()
+leds.set_one(0, [0, 255, 0])
+leds.show()
 
 def render_menu(message=None):
     """Render the menu screen, with an optional status message"""
@@ -19,6 +24,12 @@ def index():
 
 @app.route("/run/<mode_name>")
 def run(mode_name):
+    global leds
+    if leds:
+        leds.clear()
+        leds.show()
+        leds = None
+
     # Use our robot app to run something with this mode_name
     mode_manager.run(mode_name)
     if mode_manager.should_redirect(mode_name):

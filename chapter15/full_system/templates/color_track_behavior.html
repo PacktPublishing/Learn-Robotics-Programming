@@ -7,7 +7,7 @@
     <body>
         <h1>Robot Image Server</h1>
         <a class="button" id="exitbutton" href="/exit">Exit</a>
-        <a class="button" href="#" onclick="$.get('/control/start')">Start</a> <a class="button" href="#" onclick="$.get('/control/stop')">Stop</a><br>
+        <a href="#" onclick="$.get('/control/start')">Start</a> <a href="#" onclick="$.get('/control/stop')">Stop</a><br>
         <div id="video"><img src="{{ url_for('display') }}"></div>
     </body>
 </html>

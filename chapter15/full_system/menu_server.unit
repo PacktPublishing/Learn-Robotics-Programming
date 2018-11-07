@@ -1,0 +1,11 @@
+[Unit]
+Description=Robot Menu Web Service
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+WorkingDirectory=/home/pi/full_system
+ExecStart=/usr/bin/env python menu_server.py
+User=pi
