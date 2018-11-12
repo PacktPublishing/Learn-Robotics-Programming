@@ -5,7 +5,7 @@ import time
 from multiprocessing import Process, Queue
 
 from flask import (Flask, render_template,
-    Response, redirect, request, send_from_directory)
+    Response, redirect, request)
 
 
 app = Flask(__name__)
@@ -17,6 +17,11 @@ display_template = 'image_server'
 def index():
     return render_template(display_template)
 
+@app.after_request
+def add_header(response):
+    response.headers['Cache-Control'] = "no-cache, no-store, must-revalidate"
+    return response
+    
 def frame_generator():
     """This is our main video feed"""
     while True:
@@ -43,10 +48,6 @@ def handle_exit():
 def control(control_name):
     control_queue.put(control_name)
     return Response('queued')
-
-@app.route('/static/<path:path>')
-def send_static(path):
-    return send_from_directory('static', path)
 
 def start_server_process(template_name):
     """Start the process, call .terminate to close it"""

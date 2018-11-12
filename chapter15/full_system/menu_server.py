@@ -1,5 +1,5 @@
 import time
-from flask import Flask, render_template, redirect, request, send_from_directory
+from flask import Flask, render_template, redirect, request
 from robot_modes import RobotModes
 from leds_8_apa102c import Leds
 
@@ -18,6 +18,11 @@ def render_menu(message=None):
 
 # These are the Flask routes - the different places we can go to in our browser.
 
+@app.after_request
+def add_header(response):
+    response.headers['Cache-Control'] = "no-cache, no-store, must-revalidate"
+    return response
+    
 @app.route("/")
 def index():
     return render_menu()
@@ -43,10 +48,6 @@ def run(mode_name):
         else:
            return render_menu(message="%s dead." % mode_name)
     return render_menu(message="%s running" % mode_name)
-
-@app.route('/static/<path:path>')
-def send_static(path):
-    return send_from_directory('static', path)
 
 @app.route("/stop")
 def stop():
