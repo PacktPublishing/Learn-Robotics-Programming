@@ -24,7 +24,7 @@ class Robot(object):
             
         # Scale the speed
         output_speed = (abs(speed) * 255) / 100
-        return mode, output_speed
+        return mode, int(output_speed)
 
     def set_left(self, speed):
         mode, output_speed = self.convert_speed(speed)
