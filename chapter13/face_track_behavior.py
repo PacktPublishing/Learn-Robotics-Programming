@@ -91,7 +91,4 @@ class FaceTrackBehavior(object):
 print("Setting up")
 behavior = FaceTrackBehavior(Robot())
 process = start_server_process('color_track_behavior.html')
-try:
-    behavior.run()
-finally:
-    process.terminate()
+behavior.run()

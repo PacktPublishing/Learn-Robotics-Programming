@@ -44,6 +44,7 @@ def start_server_process(template_name):
     # app.debug=True
     # app.use_reloader = False
     server = Process(target=app.run, kwargs={"host": "0.0.0.0", "port": 5001})
+    server.daemon = True
     server.start()
     return server
 

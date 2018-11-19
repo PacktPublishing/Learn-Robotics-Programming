@@ -111,7 +111,4 @@ class ColorTrackingBehavior(object):
 print("Setting up")
 behavior = ColorTrackingBehavior(Robot())
 process = start_server_process('color_track_behavior.html')
-try:
-    behavior.run()
-finally:
-    process.terminate()
+behavior.run()

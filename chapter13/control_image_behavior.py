@@ -19,7 +19,4 @@ def controlled_image_server_behavior():
             return
 
 process = start_server_process('control_image_behavior.html')
-try:
-    controlled_image_server_behavior()
-finally:
-    process.terminate()
+controlled_image_server_behavior()
