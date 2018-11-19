@@ -7,14 +7,14 @@ class NoDistanceRead(Exception):
     """The system was unable to make a measurement"""
     pass # We aren't doing anything special, but python syntax demands us to be explicit about this.
 
-class DistanceSensor(object):
+class DistanceSensor(DigitalInputDevice):
     """Represents a distance sensor."""
     def __init__(self, trigger_pin, echo_pin):
         # Setup devices, an input device and an output device, with pin numbers for the sensor.
+        super(DistanceSensor, self).__init__(echo_pin)
         self._trigger = DigitalOutputDevice(trigger_pin)
         self._trigger.value = False
-        self._echo = DigitalInputDevice(echo_pin)
-        
+
     def get_distance(self):
         """Method to get the distance measurement"""
         # Timeout - we'll use this to stop it getting stuck
@@ -28,7 +28,7 @@ class DistanceSensor(object):
         # Wait for the pin state to stop being 0, going from low to high
         # When it rises, this is the real pulse start. Assign it once - it may already have changed!
         pulse_start = time.time()
-        while self._echo.pin.state == 0:
+        while self.pin.state == 0:
             pulse_start = time.time()
             # We ran out of time
             if pulse_start > time_out:
@@ -36,7 +36,7 @@ class DistanceSensor(object):
 
         # Wait for the echo pin to stop being 1, going from high, to low, the end of the pulse.
         pulse_end = time.time()
-        while self._echo.pin.state == 1:
+        while self.pin.state == 1:
             pulse_end = time.time()
             # Pulse end not received
             if pulse_end > time_out:
