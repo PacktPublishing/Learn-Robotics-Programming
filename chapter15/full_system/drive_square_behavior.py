@@ -37,7 +37,7 @@ def drive_distances(bot, left_distance, right_distance, speed=80):
 
     # start the motors, and start the loop
     set_primary(speed)
-    set_secondary(int(secondary_speed))
+    set_secondary(secondary_speed)
     while abs(primary_encoder.pulse_count) < abs(primary_distance) or abs(secondary_encoder.pulse_count) < abs(secondary_distance):
         # And sleep a bit before calculating
         time.sleep(0.05)
@@ -49,7 +49,7 @@ def drive_distances(bot, left_distance, right_distance, speed=80):
         # How fast should the motor move to get there?
         adjustment = controller.get_value(error)
 
-        set_secondary(int(secondary_speed + adjustment))
+        set_secondary(secondary_speed + adjustment)
         secondary_encoder.set_direction(math.copysign(1, secondary_speed+adjustment))
         # Some debug
         print "Primary c:{:.2f} ({:.2f} mm)\tSecondary c:{:.2f} ({:.2f} mm) t:{:.2f} e:{:.2f} s:{:.2f} adjustment: {:.2f}".format(
