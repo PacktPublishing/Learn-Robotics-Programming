@@ -13,7 +13,7 @@ from encoder_counter import EncoderCounter
 class Robot(object):
     wheel_diameter_mm = 69.0
     ticks_per_revolution = 40.0
-    wheel_distance_mm =  140.0
+    wheel_distance_mm =  131.0
 
     def __init__(self, motorhat_addr=0x6f, drive_enabled=True):
         # Setup the motorhat with the passed in address
