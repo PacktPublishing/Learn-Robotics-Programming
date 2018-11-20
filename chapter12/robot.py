@@ -13,7 +13,7 @@ from encoder_counter import EncoderCounter
 class Robot(object):
     wheel_diameter_mm = 69.0
     ticks_per_revolution = 40.0
-    wheel_distance_mm =  140.0
+    wheel_distance_mm =  131.0
 
     def __init__(self, motorhat_addr=0x6f, drive_enabled=True):
         # Setup the motorhat with the passed in address
@@ -55,9 +55,6 @@ class Robot(object):
         self.right_line_sensor.when_line = None
         self.right_line_sensor.when_no_line = None
 
-        self.left_encoder.stop()
-        self.right_encoder.stop()
-
         # Clear the display
         self.leds.clear()
         self.leds.show()
@@ -72,7 +69,7 @@ class Robot(object):
         elif speed < 0:
             mode = Raspi_MotorHAT.BACKWARD
         output_speed = (abs(speed) * 255) / 100
-        return mode, output_speed
+        return mode, int(output_speed)
 
     def set_left(self, speed):
         if not self.drive_enabled:

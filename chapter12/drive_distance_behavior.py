@@ -23,7 +23,7 @@ def drive_distance(bot, distance, speed=80):
         error = primary_encoder.pulse_count - secondary_encoder.pulse_count
         adjustment = controller.get_value(error)
         # How fast should the motor move to get there?
-        set_secondary(int(speed + adjustment))
+        set_secondary(speed + adjustment)
         # Some debug
         print("Primary c:{} ({} mm)\tSecondary c:{} ({} mm) e:{} adjustment: {:.2f}".format(
             primary_encoder.pulse_count, primary_encoder.distance_in_mm(),

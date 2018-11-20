@@ -59,7 +59,7 @@ class Robot(object):
         elif speed < 0:
             mode = Raspi_MotorHAT.BACKWARD
         output_speed = (abs(speed) * 255) / 100
-        return mode, output_speed
+        return mode, int(output_speed)
 
     def set_left(self, speed):
         if not self.drive_enabled:
