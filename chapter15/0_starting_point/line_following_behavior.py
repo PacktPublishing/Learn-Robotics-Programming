@@ -12,8 +12,8 @@ class LineFollowingBehavior:
         self.cornering = cornering
 
         led_qtr = int(self.robot.leds.count/4)
-        self.right_indicator = range(0, led_qtr)
-        self.left_indicator = range(self.robot.leds.count - led_qtr, self.robot.leds.count)
+        self.right_indicator = list(range(0, led_qtr))
+        self.left_indicator = list(range(self.robot.leds.count - led_qtr, self.robot.leds.count))
 
         self.robot.leds.show()
 
