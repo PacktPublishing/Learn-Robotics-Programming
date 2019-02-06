@@ -2,7 +2,7 @@
 
 <a href="https://india.packtpub.com/in/hardware-and-creative/learn-robotics-programming?utm_source=github&utm_medium=repository&utm_campaign=9781789340747"><img src="https://india.packtpub.com/media/catalog/product/cache/a22c7d190d97ca25f5f1089471ab8502/b/1/b11057.png" alt="Learn Robotics Programming" height="256px" align="right"></a>
 
-This is the code repository for [Book Name](https://india.packtpub.com/in/hardware-and-creative/learn-robotics-programming?utm_source=github&utm_medium=repository&utm_campaign=9781789340747), published by Packt.
+This is the code repository for [Learn Robotics Programming](https://www.packtpub.com/hardware-and-creative/learn-robotics-programming), published by Packt.
 
 **Build and control autonomous robots using Raspberry Pi 3 and Python**
 
