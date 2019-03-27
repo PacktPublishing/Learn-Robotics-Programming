@@ -1,11 +1,11 @@
 # Setup
 
-You will need a Raspberry Pi Camera, which has been setup with Raspi Config.
+You will need a Raspberry Pi Camera, which has been enabled with Raspiconfig.
 On Raspbian, install OpenCV using
 
-    sudo apt install opencv-python opencv-data
+    pi@myrobot:~ $ sudo apt install opencv-python opencv-data
 
-You will also require numpy. Install with:
+You will also require picamera and numpy. Install with:
 
-    sudo pip install picamera[array] numpy
+    pi@myrobot:~ $ sudo pip install picamera[array] numpy
 

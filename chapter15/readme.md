@@ -6,11 +6,11 @@ This code is intended to run on a Raspberry Pi on A robot running Raspbian (curr
 
 Start by performing:
     
-    sudo apt-get update && sudo apt-get upgrade -y
+    pi@myrobot:~ $ sudo apt-get update && sudo apt-get upgrade -y
 
 The following Raspbian packages should be present:
 
-    sudo apt-get install -y git python-pip python-smbus i2ctools
+    pi@myrobot:~ $ sudo apt-get install -y git python-pip python-smbus i2ctools
 
 * python-opencv
 * opencv-data
@@ -24,6 +24,6 @@ In Raspi Config enable:
 
 For python the following packages should be installed with pip
 
-    pip install
+    pi@myrobot:~ $ pip install
 git+https://github.com/orionrobots/Raspi_MotorHAT
-    pip install flask gpiozero spidev
+    pi@myrobot:~ $ pip install flask gpiozero spidev
