@@ -8,11 +8,9 @@ This is the code repository for [Learn Robotics Programming](https://www.packtpu
 
 ## What is this book about?
 
-First Paragraph from the Long Description
-
 This book covers the following exciting features:
 * Configure a Raspberry Pi for use in a robot
-* Interface motors and sensors with a Raspberry Pi
+* Build a robot, interfacing motors and sensors with a Raspberry Pi
 * Implement code to make interesting and intelligent robot behaviors
 * Understand the first steps in AI behavior like speech recognition visual processing
 * Control AI robots using Wi-Fi
@@ -54,7 +52,7 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 
 Click on the following link to see the Code in Action:
 
-[Placeholder link](http://bit.ly/2FLWiIr)
+[Learn Robotics Programmign Code In Action](http://bit.ly/2FLWiIr)
 
 ### Related products <Other books you may enjoy>
 * Artificial Intelligence for Robotics [[Packt]](https://india.packtpub.com/in/hardware-and-creative/artificial-intelligence-robotics?utm_source=github&utm_medium=repository&utm_campaign=9781788835442) [[Amazon]](https://www.amazon.com/dp/1788835441)
