@@ -1,3 +1,4 @@
+from __future__ import print_function
 from robot import Robot, NoDistanceRead
 from time import sleep
 

@@ -28,12 +28,12 @@ class Robot(object):
 
     def set_left(self, speed):
         mode, output_speed = self.convert_speed(speed)
-        self.left_motor.setSpeed(output_speed)
+        self.left_motor.setSpeed(int(output_speed))
         self.left_motor.run(mode)
 
     def set_right(self, speed):
         mode, output_speed = self.convert_speed(speed)
-        self.right_motor.setSpeed(output_speed)
+        self.right_motor.setSpeed(int(output_speed))
         self.right_motor.run(mode)
         
     def stop_motors(self):

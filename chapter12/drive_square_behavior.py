@@ -1,3 +1,4 @@
+from __future__ import print_function
 from robot import Robot, EncoderCounter
 from pid_controller import PIController
 import time
@@ -52,7 +53,7 @@ def drive_distances(bot, left_distance, right_distance, speed=80):
         set_secondary(secondary_speed + adjustment)
         secondary_encoder.set_direction(math.copysign(1, secondary_speed+adjustment))
         # Some debug
-        print "Primary c:{:.2f} ({:.2f} mm)\tSecondary c:{:.2f} ({:.2f} mm) t:{:.2f} e:{:.2f} s:{:.2f} adjustment: {:.2f}".format(
+        print("Primary c:{:.2f} ({:.2f} mm)\tSecondary c:{:.2f} ({:.2f} mm) t:{:.2f} e:{:.2f} s:{:.2f} adjustment: {:.2f}".format(
             primary_encoder.pulse_count, 
             primary_encoder.distance_in_mm(),
             secondary_encoder.pulse_count,
@@ -61,11 +62,11 @@ def drive_distances(bot, left_distance, right_distance, speed=80):
             error,
             secondary_speed,
             adjustment
-        )
+        ))
 
         # Stop the primary if we need to
         if abs(primary_encoder.pulse_count) >= abs(primary_distance):
-            print "primary stop"
+            print("primary stop")
             set_primary(0)
             secondary_speed = 0
 
@@ -79,11 +80,11 @@ def drive_arc(bot, turn_in_degrees, radius, speed=80):
     else:
         left_radius     = radius + half_width_ticks
         right_radius    = radius - half_width_ticks
-    print "Arc left radius {:.2f}, right_radius {:.2f}".format(left_radius, right_radius)
+    print("Arc left radius {:.2f}, right_radius {:.2f}".format(left_radius, right_radius))
     radians = math.radians(abs(turn_in_degrees))
     left_distance = int(left_radius * radians)
     right_distance = int(right_radius * radians)
-    print "Arc left distance {}, right_distance {}".format(left_distance, right_distance)
+    print("Arc left distance {}, right_distance {}".format(left_distance, right_distance))
     drive_distances(bot, left_distance, right_distance, speed=speed)
 
 bot = Robot()

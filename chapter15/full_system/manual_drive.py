@@ -18,7 +18,7 @@ class ManualDriveBehavior(object):
             elif parts[0] == "set_right":
                 self.robot.set_right(int(parts[1]))
             elif parts[0] == "exit":
-                print "Stopping"
+                print("Stopping")
                 exit()
             instruction = get_control_instruction()
 
@@ -46,7 +46,7 @@ class ManualDriveBehavior(object):
             if time.time() > self.timeout:
                 self.robot.stop_motors()
 
-print "Setting up"
+print("Setting up")
 behavior = ManualDriveBehavior(Robot())
 process = start_server_process('manual_drive.html')
 behavior.run()

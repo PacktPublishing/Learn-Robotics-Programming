@@ -1,5 +1,6 @@
 from Raspi_MotorHAT.Raspi_PWM_Servo_Driver import PWM
 import atexit
+from builtins import input
 
 pwm = PWM(0x6f)
 # This sets the timebase for it all
@@ -33,6 +34,6 @@ atexit.register(stop)
 import time
 
 while (True):
-    position = int(raw_input("Type your position in degrees (90 to -90, 0 is middle): "))
+    position = int(input("Type your position in degrees (90 to -90, 0 is middle): "))
     end_step = convert_degrees_to_pwm(position)
     pwm.setPWM(0, 0, end_step)
